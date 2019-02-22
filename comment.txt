@@ -1,0 +1,60 @@
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "sii";
+
+$conn = new mysqli($servername , $username , $password , $dbname);
+
+if ($conn->connect_error) {
+ die("Connection failed: " . $conn->connect_error);
+} 
+    
+   if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+      $sql= "SELECT dept_id,dept_name from department";
+      $stmt = $conn->prepare("INSERT INTO comment(Name, Comment, Email) VALUES (?, ?, ?)");
+      $stmt->bind_param("sss", $Name, $Comment, $Email);
+
+      $Name = $_POST['Name'];
+      $Comment = $_POST['Comment']; 
+      $Email = $_POST['Email'];
+      
+
+      $result = $conn->query($sql);
+      $stmt->execute();
+   }
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+   <title>comment</title>
+
+</head>
+<body>
+  <h1><center>comment</center></h1>
+
+  <form method="post"><center>
+ 
+
+  Name:
+  <input type="text" name="Name" >
+  <br>
+
+  Comment:<br>
+  <textarea name="message" rows="10" cols="30">
+  </textarea><br>
+
+  Email:
+  <input type="text" name="Email" >
+  <br><br>
+
+  <input type="submit" value="Submit">
+  <br> 
+</center></form> 
+
+</body>
+</html>
